@@ -1,4 +1,5 @@
 import type {Meta, StoryObj} from "@storybook/vue3-vite"
+import { within, expect, fn } from "storybook/test";
 import Button from "./Button.vue"
 
 const meta: Meta<typeof Button> = {
@@ -9,6 +10,9 @@ const meta: Meta<typeof Button> = {
     docs: {
       codePanel: true
     }
+  },
+  args: {
+    onClick: fn()
   }
 }
 
@@ -28,7 +32,7 @@ export const PrimaryButton: Story = {
       },
       options: ["small", "large", "medium"],
     }
-  }
+  },
 }
 
 export const RedButton: Story = {
@@ -49,3 +53,18 @@ export const RedButton: Story = {
     }
   }
 }
+
+export const Disabled: Story = {
+  args: {
+    label: "Disabled Button",
+    disabled: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = await canvas.findByRole("button", { name: "Disabled Button" });
+
+    // Проверяем, что кнопка отключена
+    expect(button).toBeDisabled();
+    expect(button).toHaveStyle("cursor: not-allowed;");
+  },
+};

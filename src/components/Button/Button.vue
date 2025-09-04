@@ -8,6 +8,8 @@
       `button-wrapper--${color}`,
       `button-wrapper--${variant}`,
     ]"
+    @click="emit('click')"
+    tabindex="-1"
   >
     <slot>{{ label }}</slot>
   </button>
@@ -29,6 +31,7 @@ withDefaults(defineProps<ButtonProps>(), {
   variant: "contained",
   disabled: false,
 });
+const emit = defineEmits(["click"])
 </script>
 
 <style>
@@ -56,7 +59,7 @@ withDefaults(defineProps<ButtonProps>(), {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 16px;
+  border-radius: 8px;
   border: 1px solid transparent;
   cursor: pointer;
 }
